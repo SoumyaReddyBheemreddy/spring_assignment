@@ -19,7 +19,7 @@ public class UsersServiceImpl implements UsersService{
         if(result.isEmpty()){
             throw new RuntimeException("Invalid user name - "+ name);
         }
-        
+
         users = result.get();
         return users;
     }
