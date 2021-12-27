@@ -26,7 +26,7 @@ public class Owner {
     @NotNull(message = "phone number required")
     @Column(name="phone_number")
     private String phoneNumber;
-    @OneToOne(mappedBy = "owner",cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY,mappedBy = "owner",cascade = CascadeType.ALL)
     private Users users;
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.DETACH,
             CascadeType.MERGE,CascadeType.REFRESH})

@@ -16,11 +16,11 @@ public class UsersServiceImpl implements UsersService{
     public Users findById(String name) {
         Optional<Users> result = userRepository.findById(name);
         Users users = null;
-        if(result == null){
+        if(result.isEmpty()){
             throw new RuntimeException("Invalid user name - "+ name);
         }
-        else
-            users = result.get();
+        
+        users = result.get();
         return users;
     }
 
