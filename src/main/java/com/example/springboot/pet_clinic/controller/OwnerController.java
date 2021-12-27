@@ -1,6 +1,5 @@
 package com.example.springboot.pet_clinic.controller;
 
-import com.example.springboot.pet_clinic.entity.Authorities;
 import com.example.springboot.pet_clinic.entity.Owner;
 import com.example.springboot.pet_clinic.entity.Pet;
 import com.example.springboot.pet_clinic.entity.Users;
