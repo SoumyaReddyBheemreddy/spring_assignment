@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
     @Autowired
@@ -15,7 +17,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<Appointment> findAll() {
         return appointmentRepository.findAll();
     }
-
+    Logger logger = Logger.getLogger(getClass().getName());
     @Override
     public Appointment findById(int id) {
         Optional<Appointment> result = appointmentRepository.findById(id);
@@ -23,8 +25,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         if(result.isPresent()){
             appointment = result.get();
         }
-        else
-            throw new RuntimeException("Appointment id is not found - "+id);
+        else {
+            logger.warning("Invalid Appointment id - "+id);
+            throw new RuntimeException("Appointment id is not found - " + id);
+        }
         return appointment;
     }
 
@@ -35,6 +39,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void deleteById(int id) {
+        findById(id);
         appointmentRepository.deleteById(id);
     }
 }

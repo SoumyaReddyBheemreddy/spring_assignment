@@ -7,10 +7,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 @Service
 public class PetServiceImpl implements PetService{
     @Autowired
     private PetRepository petRepository;
+    Logger logger = Logger.getLogger(getClass().getName());
     @Override
     public List<Pet> findAll() {
 
@@ -23,8 +26,10 @@ public class PetServiceImpl implements PetService{
         Pet pet =null;
         if(result.isPresent())
             pet = result.get();
-        else
-            throw new RuntimeException("Pet id is not found - "+id);
+        else {
+            logger.warning("Invalid Pet Id - "+id);
+            throw new RuntimeException("Pet id is not found - " + id);
+        }
         return pet;
     }
 
@@ -37,6 +42,7 @@ public class PetServiceImpl implements PetService{
 
     @Override
     public void deleteById(int id) {
+        findById(id);
         petRepository.deleteById(id);
     }
 }

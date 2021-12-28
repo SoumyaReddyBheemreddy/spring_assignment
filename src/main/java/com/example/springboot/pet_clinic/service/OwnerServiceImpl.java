@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 @Service
 public class OwnerServiceImpl implements OwnerService{
     @Autowired
@@ -21,7 +23,7 @@ public class OwnerServiceImpl implements OwnerService{
     public OwnerServiceImpl(OwnerRepository ownerRepository) {
         this.ownerRepository = ownerRepository;
     }
-
+    Logger logger = Logger.getLogger(getClass().getName());
     @Override
     public List<Owner> findAll() {
         return ownerRepository.findAll();
@@ -34,8 +36,10 @@ public class OwnerServiceImpl implements OwnerService{
         if(result.isPresent()){
             owner = result.get();
         }
-        else
-            throw new RuntimeException("Owner id is not found - "+id);
+        else {
+            logger.warning("Invalid Owner id -  "+id);
+            throw new RuntimeException("Owner id is not found - " + id);
+        }
         return owner;
     }
 
@@ -76,6 +80,7 @@ public class OwnerServiceImpl implements OwnerService{
 
     @Override
     public void deleteById(int id) {
+        findById(id);
         ownerRepository.deleteById(id);
     }
 }
