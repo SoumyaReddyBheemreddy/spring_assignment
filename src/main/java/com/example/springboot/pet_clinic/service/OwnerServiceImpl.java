@@ -6,6 +6,7 @@ import com.example.springboot.pet_clinic.entity.Authorities;
 import com.example.springboot.pet_clinic.entity.Owner;
 import com.example.springboot.pet_clinic.entity.Pet;
 import com.example.springboot.pet_clinic.entity.Users;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
+@Log4j2
 public class OwnerServiceImpl implements OwnerService{
     @Autowired
     private OwnerRepository ownerRepository;
@@ -23,7 +25,6 @@ public class OwnerServiceImpl implements OwnerService{
     public OwnerServiceImpl(OwnerRepository ownerRepository) {
         this.ownerRepository = ownerRepository;
     }
-    Logger logger = Logger.getLogger(getClass().getName());
     @Override
     public List<Owner> findAll() {
         return ownerRepository.findAll();
@@ -37,7 +38,7 @@ public class OwnerServiceImpl implements OwnerService{
             owner = result.get();
         }
         else {
-            logger.warning("Invalid Owner id -  "+id);
+            log.error("Invalid Owner id -  "+id);
             throw new RuntimeException("Owner id is not found - " + id);
         }
         return owner;

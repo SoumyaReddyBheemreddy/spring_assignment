@@ -2,6 +2,7 @@ package com.example.springboot.pet_clinic.service;
 
 import com.example.springboot.pet_clinic.dao.AppointmentRepository;
 import com.example.springboot.pet_clinic.entity.Appointment;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
+@Log4j2
 public class AppointmentServiceImpl implements AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
@@ -17,7 +19,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<Appointment> findAll() {
         return appointmentRepository.findAll();
     }
-    Logger logger = Logger.getLogger(getClass().getName());
     @Override
     public Appointment findById(int id) {
         Optional<Appointment> result = appointmentRepository.findById(id);
@@ -26,7 +27,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointment = result.get();
         }
         else {
-            logger.warning("Invalid Appointment id - "+id);
+            log.error("Invalid Appointment id - "+id);
             throw new RuntimeException("Appointment id is not found - " + id);
         }
         return appointment;
