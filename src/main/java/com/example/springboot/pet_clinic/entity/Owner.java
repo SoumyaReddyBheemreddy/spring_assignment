@@ -38,11 +38,10 @@ public class Owner {
     private Set<Pet> pets;
     public Owner(){}
 
-    public Owner(String name, String phoneNumber, Users users, Set<Pet> pets) {
+    public Owner(int id, String name, String phoneNumber) {
+        this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.users = users;
-        this.pets = pets;
     }
 
     @Override

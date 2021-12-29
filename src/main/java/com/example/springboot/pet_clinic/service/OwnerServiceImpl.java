@@ -81,7 +81,6 @@ public class OwnerServiceImpl implements OwnerService{
 
     @Override
     public void deleteById(int id) {
-        findById(id);
         ownerRepository.deleteById(id);
     }
 }
