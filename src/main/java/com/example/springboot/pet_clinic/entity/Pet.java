@@ -36,11 +36,10 @@ public class Pet {
     private Set<Owner> owners;
     public Pet(){}
 
-    public Pet(String name, String type, Set<Appointment> appointments, Set<Owner> owners) {
+    public Pet(int id, String name, String type) {
+        this.id = id;
         this.name = name;
         this.type = type;
-        this.appointments = appointments;
-        this.owners = owners;
     }
 
     @Override
