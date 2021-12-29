@@ -34,7 +34,7 @@ class OwnerServiceTest {
         owners.add(owner2);
         owners.add(owner3);
         when(ownerRepository.findAll()).thenReturn(owners);
-        List<Owner> ownerList = ownerRepository.findAll();
+        List<Owner> ownerList = ownerService.findAll();
         assertEquals(3,ownerList.size());
         // to checking whether we are using repository or not in petService
         verify(ownerRepository,times(1)).findAll();
