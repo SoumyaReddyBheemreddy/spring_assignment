@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class PetServiceApplicationTest {
+class PetServiceApplicationTest {
     @InjectMocks
     PetServiceImpl petService;
     @Mock
