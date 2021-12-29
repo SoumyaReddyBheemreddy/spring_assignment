@@ -38,13 +38,13 @@ public class Appointment {
     private Pet pet;
     public Appointment(){}
 
-    public Appointment(String date, String description, double amount, String vetName, String specialization, Pet pet) {
+    public Appointment(int id, String date, String description, double amount, String vetName, String specialization) {
+        this.id = id;
         this.date = date;
         this.description = description;
         this.amount = amount;
         this.vetName = vetName;
         this.specialization = specialization;
-        this.pet = pet;
     }
 
     @Override

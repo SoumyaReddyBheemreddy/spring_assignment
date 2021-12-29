@@ -25,12 +25,13 @@ public class Users {
     @OneToMany(fetch = FetchType.LAZY,cascade =  CascadeType.ALL,mappedBy = "user")
     private Set<Authorities> authorities;
     public Users(){}
-    public Users(String userName, String password, int enabled, Owner owner) {
+
+    public Users(String userName, String password, int enabled) {
         this.userName = userName;
         this.password = password;
         this.enabled = enabled;
-        this.owner = owner;
     }
+
     @Override
     public String toString() {
         return "Users{" +

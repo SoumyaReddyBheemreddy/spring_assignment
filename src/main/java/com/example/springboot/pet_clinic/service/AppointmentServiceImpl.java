@@ -40,7 +40,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void deleteById(int id) {
-        findById(id);
         appointmentRepository.deleteById(id);
     }
 }
