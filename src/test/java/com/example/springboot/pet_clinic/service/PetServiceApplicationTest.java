@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
+
 class PetServiceApplicationTest {
     @InjectMocks
     PetServiceImpl petService;
@@ -53,5 +55,13 @@ class PetServiceApplicationTest {
         Pet pet = new Pet(1,"Tom","Cat");
         petService.save(pet);
         verify(petRepository,times(1)).save(pet);
+    }
+    @Test
+    void deleteTest(){
+        Pet pet = new Pet(1,"Tom","Cat");
+        petService.save(pet);
+        petService.deleteById(pet.getId());
+        Optional<Pet> result = petRepository.findById(pet.getId());
+        assertEquals(Optional.empty(),result);
     }
 }
