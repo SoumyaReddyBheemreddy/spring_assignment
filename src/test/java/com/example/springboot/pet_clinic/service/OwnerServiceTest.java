@@ -40,7 +40,7 @@ class OwnerServiceTest {
         verify(ownerRepository,times(1)).findAll();
     }
     @Test
-    void findByIdTest(){
+    void findByIdTest() throws RuntimeException{
         Optional<Owner> result = Optional.of(new Owner(1,"John","9876543210"));
         Mockito.when(ownerRepository.findById(1)).thenReturn(result);
         Owner owner = ownerService.findById(1);

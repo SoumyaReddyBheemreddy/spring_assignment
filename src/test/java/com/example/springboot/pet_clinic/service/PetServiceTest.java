@@ -40,7 +40,7 @@ class PetServiceTest {
         verify(petRepository,times(1)).findAll();
     }
     @Test
-    void findByIdTest(){
+    void findByIdTest() throws RuntimeException{
         Optional<Pet> result = Optional.of(new Pet(1,"Tom","Cat"));
         Mockito.when(petRepository.findById(1)).thenReturn(result);
         Pet pet = petService.findById(1);
