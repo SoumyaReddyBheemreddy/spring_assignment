@@ -16,12 +16,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = TestDataSourceConfig.class)
@@ -38,13 +37,22 @@ class PetControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     @Test
-    void listPets() throws Exception{
+    void listPetsTest() throws Exception{
         List<Pet> pets = new ArrayList<>();
         Pet pet1 = new Pet(1,"Tom","Cat");
         Pet pet2 = new Pet(2,"Jerry","Mouse");
         pets.add(pet1);
         pets.add(pet2);
         when(petService.findAll()).thenReturn(pets);
-        mockMvc.perform(get("/pets/list")).andExpect(status().isOk());
+        mockMvc.perform(get("/pets/list")).andExpect(status().isOk()).andExpect(view().name("pets/listPets"));
+        verify(petService,times(1)).findAll();
+    }
+    @Test
+    void addPetTest() throws Exception{
+        Pet pet = new Pet();
+        mockMvc.perform(get("/pets/form").flashAttr("pet",pet))
+                .andExpect(status().isOk())
+                .andExpect(view().name("pets/petForm"));
+
     }
 }
