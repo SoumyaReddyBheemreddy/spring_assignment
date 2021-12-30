@@ -96,4 +96,13 @@ class OwnerControllerTest {
                 .flashAttr("owner",owner))
                 .andExpect(view().name("redirect:/owners/list?petId=1"));
     }
+    @Test
+    void deletePetTest() throws Exception{
+        Pet pet = new Pet(1,"Tom","Cat");
+        Owner owner = new Owner(1,"John","9876543210");
+        when(ownerService.findById(1)).thenReturn(owner);
+        mockMvc.perform(get("/owners/delete?petId="+pet.getId()+"&ownerId="+owner.getId()))
+                .andExpect(view().name("redirect:/owners/list?petId=1"));
+
+    }
 }
