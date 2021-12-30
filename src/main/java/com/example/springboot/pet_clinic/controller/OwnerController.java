@@ -35,7 +35,8 @@ public class OwnerController {
     }
     @GetMapping("/pets")
     public String getOwnerPets(Model model, Authentication authentication){
-        Users users = usersService.findById(authentication.getName());
+        String name = authentication.getName();
+        Users users = usersService.findById(name);
         Owner owner = users.getOwner();
         Set<Pet> pets = owner.getPets();
         model.addAttribute("pets",pets);
