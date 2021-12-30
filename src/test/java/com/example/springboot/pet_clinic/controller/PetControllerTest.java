@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = TestDataSourceConfig.class)
 @TestPropertySource(locations = "classpath:applicationTest.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PetControllerTest {
+class PetControllerTest {
     @MockBean
     private PetService petService;
     private MockMvc mockMvc;

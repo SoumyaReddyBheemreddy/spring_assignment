@@ -43,7 +43,7 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/owners/save*").hasRole("ADMIN")
 				.antMatchers("/owners/update*").hasRole("ADMIN")
 				.antMatchers("/owners/delete").hasRole("ADMIN")
-				.antMatchers("/pets/list").hasAnyRole("ADMIN","OWNER")
+				.antMatchers("/appointments/list").hasAnyRole("ADMIN","OWNER")
 				.antMatchers("/appointments/form*").hasRole( "ADMIN")
 				.antMatchers("/appointments/save*").hasRole("ADMIN")
 				.antMatchers("/appointments/delete").hasRole("ADMIN")
