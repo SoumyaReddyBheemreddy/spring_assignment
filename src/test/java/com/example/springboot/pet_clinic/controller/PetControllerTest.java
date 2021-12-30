@@ -64,6 +64,12 @@ class PetControllerTest {
     void savePetTest() throws Exception{
         Pet pet = new Pet(0,"Tom","Cat");
         mockMvc.perform(post("/pets/save").flashAttr("pet",pet)).andExpect(view().name("redirect:/pets/list"));
+        if(pet.getId()!=0){
+            Pet tempPet = petService.findById(pet.getId());
+            tempPet.setName(pet.getName());
+            tempPet.setType(pet.getType());
+            verify(petService,times(1)).save(tempPet);
+        }
         verify(petService,times(1)).save(pet);
     }
     @Test
