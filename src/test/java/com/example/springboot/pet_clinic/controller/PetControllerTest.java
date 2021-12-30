@@ -20,6 +20,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,6 +56,13 @@ class PetControllerTest {
         mockMvc.perform(get("/pets/form").flashAttr("pet",pet))
                 .andExpect(status().isOk())
                 .andExpect(view().name("pets/petForm"));
+
+    }
+    @Test
+    void savePetTest() throws Exception{
+        Pet pet = new Pet(0,"Tom","Cat");
+        mockMvc.perform(post("/pets/save").flashAttr("pet",pet)).andExpect(view().name("redirect:/pets/list"));
+
 
     }
 }
