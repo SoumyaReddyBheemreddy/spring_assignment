@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -62,7 +64,21 @@ class PetControllerTest {
     void savePetTest() throws Exception{
         Pet pet = new Pet(0,"Tom","Cat");
         mockMvc.perform(post("/pets/save").flashAttr("pet",pet)).andExpect(view().name("redirect:/pets/list"));
-
-
+        verify(petService,times(1)).save(pet);
+    }
+    @Test
+    void updatePetTest() throws Exception{
+        Pet pet = new Pet(1,"Tom","Cat");
+       when(petService.findById(1)).thenReturn(pet);
+       mockMvc.perform(get("/pets/update?petId="+pet.getId())).andExpect(status().isOk())
+               .andExpect(view().name("pets/petForm"));
+    }
+    @Test
+    void deletePetTest() throws Exception{
+        Pet pet = new Pet(1,"Tom","Cat");
+        when(petService.findById(1)).thenReturn(pet);
+        mockMvc.perform(get("/pets/delete?petId="+pet.getId()))
+                .andExpect(view().name("redirect:/pets/list"));
+        verify(petService,times(1)).deleteById(pet.getId());
     }
 }
