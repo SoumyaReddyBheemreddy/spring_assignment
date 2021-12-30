@@ -49,10 +49,13 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return " Appointment[" +
-                "date=" + date +
+        return "Appointment{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
                 ", description='" + description + '\'' +
                 ", amount=" + amount +
-                ']'+"\n";
+                ", vetName='" + vetName + '\'' +
+                ", specialization='" + specialization + '\'' +
+                '}';
     }
 }

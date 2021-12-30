@@ -61,7 +61,7 @@ public class AppointmentController {
         return "redirect:/appointments/list?petId="+petId;
     }
     @GetMapping("/update")
-    public String updatePet(Model model, @RequestParam("appointmentId") int appointmentId,
+    public String updateAppointment(Model model, @RequestParam("appointmentId") int appointmentId,
                             @RequestParam("petId") int petId){
         Appointment appointment = appointmentService.findById(appointmentId);
         Pet pet  = petService.findById(petId);
