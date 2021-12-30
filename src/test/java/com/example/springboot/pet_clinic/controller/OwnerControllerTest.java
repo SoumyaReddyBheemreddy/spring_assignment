@@ -3,12 +3,11 @@ package com.example.springboot.pet_clinic.controller;
 import com.example.springboot.pet_clinic.config.TestDataSourceConfig;
 import com.example.springboot.pet_clinic.entity.Owner;
 import com.example.springboot.pet_clinic.entity.Pet;
-import com.example.springboot.pet_clinic.entity.Users;
+
 import com.example.springboot.pet_clinic.service.OwnerService;
 import com.example.springboot.pet_clinic.service.PetService;
 import com.example.springboot.pet_clinic.service.UsersService;
-import lombok.extern.log4j.Log4j2;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -22,15 +21,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -38,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = TestDataSourceConfig.class)
 @TestPropertySource(locations = "classpath:applicationTest.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Log4j2
+
 class OwnerControllerTest {
         @MockBean
         private PetService petService;
@@ -81,7 +76,7 @@ class OwnerControllerTest {
         Owner owner = new Owner(0,"John","9876543210");
         when(petService.findById(pet.getId())).thenReturn(pet);
         mockMvc.perform(post("/owners/save?petId="+pet.getId()).flashAttr("pet",pet)
-                .flashAttr("owner",owner));
+                .flashAttr("owner",owner)).andExpect(view().name("redirect:/owners/list?petId=1"));
     }
     @Test
     void updatePetOwnerTest() throws Exception{
@@ -90,7 +85,7 @@ class OwnerControllerTest {
         when(petService.findById(pet.getId())).thenReturn(pet);
         when(ownerService.findById(owner.getId())).thenReturn(owner);
         mockMvc.perform(get("/owners/update?petId="+pet.getId()+"&ownerId="+owner.getId()).flashAttr("pet",pet)
-                .flashAttr("owner",owner));
+                .flashAttr("owner",owner)).andExpect(view().name("owners/updateOwnerForm"));
     }
     @Test
     void updateOwnerTest() throws Exception{
@@ -98,6 +93,7 @@ class OwnerControllerTest {
         Owner owner = new Owner(1,"John","9876543210");
         when(ownerService.findById(owner.getId())).thenReturn(owner);
         mockMvc.perform(post("/owners/save-update?petId="+pet.getId()).flashAttr("pet",pet)
-                .flashAttr("owner",owner));
+                .flashAttr("owner",owner))
+                .andExpect(view().name("redirect:/owners/list?petId=1"));
     }
 }
