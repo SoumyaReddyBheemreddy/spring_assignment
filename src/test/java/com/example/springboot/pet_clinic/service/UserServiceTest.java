@@ -36,11 +36,10 @@ class UserServiceTest {
         assertEquals("Sam",user.getPassword());
         verify(userRepository,times(1)).findById("Sam");
         String name = "afeafwe";
-        when(userRepository.findById(name)).thenThrow(new RuntimeException("Invalid user name - "+ name));
-        try{
+        Optional<Users> result1 = Optional.empty();
+        when(userRepository.findById(name)).thenReturn(result1);
+        try {
             userService.findById(name);
-
-
         }
         catch (RuntimeException exception){
             assertEquals("Invalid user name - "+ name,exception.getMessage());
@@ -59,7 +58,7 @@ class UserServiceTest {
 //        catch (RuntimeException exception){
 //            assertEquals("Invalid user name - "+ name,exception.getMessage());
 //        }
-//    }
+//   }
     @Test
     void saveTest(){
         Users user = new Users();
