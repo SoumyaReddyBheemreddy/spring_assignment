@@ -13,14 +13,16 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = TestDataSourceConfig.class)
 @TestPropertySource(locations = "classpath:applicationTest.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class LoginControllerTest {
+class DemoController {
     private MockMvc mockMvc;
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -29,15 +31,7 @@ class LoginControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     @Test
-    void redirectTest() throws Exception {
-        mockMvc.perform(get("/")).andExpect(redirectedUrl("/show-login-page"));
-    }
-    @Test
-    void showLoginPageTest() throws Exception {
-        mockMvc.perform(get("/show-login-page")).andExpect(view().name("fancy-login"));
-    }
-    @Test
-    void accessDeniedTest() throws Exception {
-        mockMvc.perform(get("/access-denied")).andExpect(view().name("access-denied"));
+    void homeTest() throws Exception {
+        mockMvc.perform(get("/home")).andReturn();
     }
 }
