@@ -3,6 +3,7 @@ package com.example.springboot.pet_clinic.service;
 
 import com.example.springboot.pet_clinic.dao.AppointmentRepository;
 import com.example.springboot.pet_clinic.entity.Appointment;
+import com.example.springboot.pet_clinic.entity.Pet;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -50,6 +51,15 @@ class AppointmentServiceTest {
         assertEquals("Mary",appointment.getVetName());
         assertEquals("specialization",appointment.getSpecialization());
         verify(appointmentRepository,times(1)).findById(1);
+        int id = -100000;
+        Optional<Appointment> result1 = Optional.empty();
+        when(appointmentRepository.findById(id)).thenReturn(result1);
+        try {
+            appointmentService.findById(id);
+        }
+        catch (RuntimeException exception){
+            assertEquals("Appointment id is not found - " +id,exception.getMessage());
+        }
     }
     @Test
     void saveTest(){

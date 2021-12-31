@@ -23,13 +23,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment findById(int id) {
         Optional<Appointment> result = appointmentRepository.findById(id);
         Appointment appointment = null;
-        if(result.isPresent()){
-            appointment = result.get();
-        }
-        else {
+        if(result.isEmpty()){
             log.error("Invalid Appointment id - "+id);
             throw new RuntimeException("Appointment id is not found - " + id);
+
         }
+        appointment = result.get();
         return appointment;
     }
 
