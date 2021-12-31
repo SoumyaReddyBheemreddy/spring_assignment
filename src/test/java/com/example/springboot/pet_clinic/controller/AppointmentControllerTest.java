@@ -74,6 +74,8 @@ class AppointmentControllerTest {
         when(petService.findById(pet.getId())).thenReturn(pet);
         Appointment appointment = new Appointment(0,"2021-12-30","description",400.0,"Raj","specialization");
         appointment.setPet(pet);
+        mockMvc.perform(post("/appointments/save?petId="+pet.getId()))
+                .andExpect(view().name("appointments/appointmentForm"));
         mockMvc.perform(post("/appointments/save?petId="+pet.getId())
                 .flashAttr("pet",pet)
                         .flashAttr("appointment",appointment))
