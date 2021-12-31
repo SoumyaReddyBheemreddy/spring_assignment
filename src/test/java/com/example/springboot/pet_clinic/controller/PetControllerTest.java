@@ -64,6 +64,9 @@ class PetControllerTest {
         mockMvc.perform(post("/pets/save"))
                 .andExpect(view().name("pets/petForm"));
         mockMvc.perform(post("/pets/save").flashAttr("pet",pet)).andExpect(view().name("redirect:/pets/list"));
+        Pet pet1 = new Pet(1,"Jerry","Mouse");
+        when(petService.findById(1)).thenReturn(pet1);
+        mockMvc.perform(post("/pets/save").flashAttr("pet",pet1)).andExpect(view().name("redirect:/pets/list"));
         verify(petService,times(1)).save(pet);
     }
     @Test
