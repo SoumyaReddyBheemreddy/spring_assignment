@@ -34,13 +34,12 @@ public class OwnerServiceImpl implements OwnerService{
     public Owner findById(int id) {
         Optional<Owner> result = ownerRepository.findById(id);
         Owner owner = null;
-        if(result.isPresent()){
-            owner = result.get();
-        }
-        else {
+        if(result.isEmpty()){
             log.error("Invalid Owner id -  "+id);
             throw new RuntimeException("Owner id is not found - " + id);
+
         }
+        owner = result.get();
         return owner;
     }
 

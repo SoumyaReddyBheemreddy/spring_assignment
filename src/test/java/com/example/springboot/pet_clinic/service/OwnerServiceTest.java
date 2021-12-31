@@ -51,6 +51,15 @@ class OwnerServiceTest {
         assertEquals("John",owner.getName());
         assertEquals("9876543210",owner.getPhoneNumber());
         verify(ownerRepository,times(1)).findById(1);
+        int id = -100000;
+        Optional<Owner> result1 = Optional.empty();
+        when(ownerRepository.findById(id)).thenReturn(result1);
+        try {
+            ownerService.findById(id);
+        }
+        catch (RuntimeException exception){
+            assertEquals("Owner id is not found - "+id,exception.getMessage());
+        }
     }
     @Test
     void saveTest(){
