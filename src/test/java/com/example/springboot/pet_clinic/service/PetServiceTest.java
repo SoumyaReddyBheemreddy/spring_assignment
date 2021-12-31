@@ -2,6 +2,7 @@ package com.example.springboot.pet_clinic.service;
 
 import com.example.springboot.pet_clinic.dao.PetRepository;
 import com.example.springboot.pet_clinic.entity.Pet;
+import com.example.springboot.pet_clinic.entity.Users;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -48,6 +49,15 @@ class PetServiceTest {
         assertEquals("Tom",pet.getName());
         assertEquals("Cat",pet.getType());
         verify(petRepository,times(1)).findById(1);
+        int id = -100000;
+        Optional<Pet> result1 = Optional.empty();
+        when(petRepository.findById(id)).thenReturn(result1);
+        try {
+            petService.findById(id);
+        }
+        catch (RuntimeException exception){
+            assertEquals("Pet id is not found - "+id,exception.getMessage());
+        }
     }
     @Test
     void saveTest(){

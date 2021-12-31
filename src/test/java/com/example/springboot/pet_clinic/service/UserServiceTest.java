@@ -44,21 +44,8 @@ class UserServiceTest {
         catch (RuntimeException exception){
             assertEquals("Invalid user name - "+ name,exception.getMessage());
         }
-
     }
-//    @Test
-//    void findByIdTestThrowsException(){
-//        String name = "afeafwe";
-//        when(userRepository.findById(name)).thenThrow(new RuntimeException("Invalid user name - "+ name));
-//        try{
-//            userService.findById(name);
-//
-//
-//        }
-//        catch (RuntimeException exception){
-//            assertEquals("Invalid user name - "+ name,exception.getMessage());
-//        }
-//   }
+
     @Test
     void saveTest(){
         Users user = new Users();

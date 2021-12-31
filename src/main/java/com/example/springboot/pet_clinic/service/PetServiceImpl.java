@@ -25,12 +25,11 @@ public class PetServiceImpl implements PetService{
     public Pet findById(int id) {
         Optional<Pet> result= petRepository.findById(id);
         Pet pet =null;
-        if(result.isPresent())
-            pet = result.get();
-        else {
+        if(result.isEmpty()){
             log.error("Invalid Pet Id - "+id);
             throw new RuntimeException("Pet id is not found - " + id);
         }
+        pet = result.get();
         return pet;
     }
 
