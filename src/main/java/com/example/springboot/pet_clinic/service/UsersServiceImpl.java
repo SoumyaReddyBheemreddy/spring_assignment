@@ -18,12 +18,14 @@ public class UsersServiceImpl implements UsersService{
     public Users findById(String name) {
         Optional<Users> result = userRepository.findById(name);
         Users users = null;
-        if(result.isEmpty()){
+        if(result.isPresent()){
+            users = result.get();
+        }
+        else{
             log.error("Invalid User name - "+ name);
             throw new RuntimeException("Invalid user name - "+ name);
         }
 
-        users = result.get();
         return users;
     }
 
