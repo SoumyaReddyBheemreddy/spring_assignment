@@ -1,7 +1,10 @@
 package com.example.springboot.pet_clinic.service;
 
 import com.example.springboot.pet_clinic.dao.OwnerRepository;
+import com.example.springboot.pet_clinic.entity.Authorities;
 import com.example.springboot.pet_clinic.entity.Owner;
+import com.example.springboot.pet_clinic.entity.Pet;
+import com.example.springboot.pet_clinic.entity.Users;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -56,6 +59,17 @@ class OwnerServiceTest {
         verify(ownerRepository,times(1)).save(owner);
     }
     @Test
+    void savePetOwnerTest(){
+        Owner owner = new Owner(1,"John","9876543210");
+        Pet pet = new Pet(1,"Tom","Cat");
+        pet.addOwner(owner);
+        Optional<Owner> result = Optional.empty();
+        when(ownerRepository.findByNameAndPhoneNumber(owner.getName(),owner.getPhoneNumber()))
+                .thenReturn(result);
+        ownerService.savePetOwner(owner,pet);
+        verify(ownerRepository,times(1)).save(owner);
+    }
+    @Test
     void deleteTest(){
         Owner owner = new Owner(1,"John","9876543210");
         ownerService.save(owner);
@@ -63,4 +77,5 @@ class OwnerServiceTest {
         Optional<Owner> result = ownerRepository.findById(owner.getId());
         assertEquals(Optional.empty(),result);
     }
+
 }
