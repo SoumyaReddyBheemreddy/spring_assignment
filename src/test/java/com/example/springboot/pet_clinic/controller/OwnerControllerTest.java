@@ -88,6 +88,7 @@ class OwnerControllerTest {
         when(ownerService.findById(owner.getId())).thenReturn(owner);
         mockMvc.perform(get("/owners/update?petId="+pet.getId()+"&ownerId="+owner.getId()).flashAttr("pet",pet)
                 .flashAttr("owner",owner)).andExpect(view().name("owners/updateOwnerForm"));
+
     }
     @Test
     void updateOwnerTest() throws Exception{
@@ -97,6 +98,8 @@ class OwnerControllerTest {
         mockMvc.perform(post("/owners/save-update?petId="+pet.getId()).flashAttr("pet",pet)
                 .flashAttr("owner",owner))
                 .andExpect(view().name("redirect:/owners/list?petId=1"));
+        mockMvc.perform(post("/owners/save-update?petId="+pet.getId()))
+                .andExpect(view().name("owners/ownerForm"));
     }
     @Test
     void deletePetTest() throws Exception{
