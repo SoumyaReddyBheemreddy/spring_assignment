@@ -1,10 +1,8 @@
 package com.example.springboot.pet_clinic.service;
 
 import com.example.springboot.pet_clinic.dao.OwnerRepository;
-import com.example.springboot.pet_clinic.entity.Authorities;
 import com.example.springboot.pet_clinic.entity.Owner;
 import com.example.springboot.pet_clinic.entity.Pet;
-import com.example.springboot.pet_clinic.entity.Users;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

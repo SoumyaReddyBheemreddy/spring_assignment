@@ -8,6 +8,7 @@ import com.example.springboot.pet_clinic.entity.Pet;
 import com.example.springboot.pet_clinic.entity.Users;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class OwnerServiceImpl implements OwnerService{
     public void savePetOwner(Owner owner, Pet pet) {
         Users user = new Users();
         user.setUserName(owner.getName());
-        user.setPassword("{noop}"+owner.getName());
+        user.setPassword((new BCryptPasswordEncoder().encode(owner.getName())));
         user.setEnabled(1);
         user.setOwner(owner);
         Authorities authorities = new Authorities();
