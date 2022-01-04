@@ -21,6 +21,8 @@ public class PetDTO {
     @NotNull(message = "pet type is required")
     @Column(name = "type")
     private String type;
-    private Set<Appointment> appointments;
+
     private Set<Owner> owners;
+
+    private Set<Appointment> appointments;
 }
