@@ -1,6 +1,8 @@
 package com.example.springboot.pet_clinic.controller;
 
 
+import com.example.springboot.pet_clinic.converter.PetConverter;
+import com.example.springboot.pet_clinic.dto.PetDTO;
 import com.example.springboot.pet_clinic.entity.Pet;
 import com.example.springboot.pet_clinic.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ public class PetController {
     @Autowired
     private PetService petService;
 
-
+    private final PetConverter petConverter = new PetConverter();
     @InitBinder
     public void initBinder(WebDataBinder dataBinder)
     {
@@ -30,13 +32,13 @@ public class PetController {
 
     @GetMapping("/list")
     public String listPets(Model model){
-        List<Pet> pets = petService.findAll();
+        List<PetDTO> pets= petConverter.entityToDto(petService.findAll());
         model.addAttribute("pets",pets);
         return "pets/listPets";
     }
     @GetMapping("/form")
     public String addPet(Model model){
-        Pet pet = new Pet();
+        PetDTO pet = petConverter.entityToDto(new Pet());
         model.addAttribute("pet",pet);
         return "pets/petForm";
     }
@@ -58,7 +60,7 @@ public class PetController {
 
     @GetMapping("/update")
     public String updatePet(Model model, @RequestParam("petId") int petId){
-        Pet pet = petService.findById(petId);
+        PetDTO pet = petConverter.entityToDto(petService.findById(petId));
         model.addAttribute("pet",pet);
         return "pets/petForm";
     }
