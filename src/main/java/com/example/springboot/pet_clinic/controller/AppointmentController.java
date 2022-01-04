@@ -1,5 +1,8 @@
 package com.example.springboot.pet_clinic.controller;
 
+import com.example.springboot.pet_clinic.converter.AppointmentConverter;
+import com.example.springboot.pet_clinic.dto.AppointmentDTO;
+import com.example.springboot.pet_clinic.dto.PetDTO;
 import com.example.springboot.pet_clinic.entity.Appointment;
 import com.example.springboot.pet_clinic.entity.Pet;
 import com.example.springboot.pet_clinic.service.AppointmentService;
@@ -21,7 +24,7 @@ public class AppointmentController {
     private AppointmentService appointmentService;
     @Autowired
     private PetService petService;
-
+    private final AppointmentConverter appointmentConverter = new AppointmentConverter();
     @InitBinder
     public void initBinder(WebDataBinder dataBinder)
     {
@@ -48,16 +51,16 @@ public class AppointmentController {
     }
     //save-pet-appointment
     @PostMapping("/save")
-    public String saveAppointment(@Valid  @ModelAttribute("appointment") Appointment appointment, BindingResult bindingResult,
-                                  @ModelAttribute("pet") Pet petModel,
-                              @RequestParam("petId") int petId){
+    public String saveAppointment(@Valid  @ModelAttribute("appointment") AppointmentDTO appointment, BindingResult bindingResult,
+                                  @ModelAttribute("pet") PetDTO petModel,
+                                  @RequestParam("petId") int petId){
         petModel.setId(petId);
         if(bindingResult.hasErrors())
             return "appointments/appointmentForm";
         Pet pet = petService.findById(petId);
         appointment.setPet(pet);
 
-       appointmentService.save(appointment);
+       appointmentService.save(appointmentConverter.dtoToEntity(appointment));
         return "redirect:/appointments/list?petId="+petId;
     }
     @GetMapping("/update")
