@@ -17,7 +17,8 @@ import javax.sql.DataSource;
 public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	// add a reference to our security data source
-
+	private static final String admin = "ADMIN";
+	private static final String owner = "OWNER";
 	@Autowired
 	@Qualifier("securityDataSource")
 	private DataSource securityDataSource;
@@ -34,20 +35,20 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/pets/list").hasRole("ADMIN")
-				.antMatchers("/pets/form*").hasRole("ADMIN")
-				.antMatchers("/pets/save*").hasRole("ADMIN")
-				.antMatchers("/pets/delete").hasRole("ADMIN")
-				.antMatchers("/owners/list").hasRole("ADMIN")
-				.antMatchers("/owners/pets").hasRole("OWNER")
-				.antMatchers("/owners/form*").hasRole("ADMIN")
-				.antMatchers("/owners/save*").hasRole("ADMIN")
-				.antMatchers("/owners/update*").hasRole("ADMIN")
-				.antMatchers("/owners/delete").hasRole("ADMIN")
-				.antMatchers("/appointments/list").hasAnyRole("ADMIN","OWNER")
-				.antMatchers("/appointments/form*").hasRole( "ADMIN")
-				.antMatchers("/appointments/save*").hasRole("ADMIN")
-				.antMatchers("/appointments/delete").hasRole("ADMIN")
+				.antMatchers("/pets/list").hasRole(admin)
+				.antMatchers("/pets/form*").hasRole(admin)
+				.antMatchers("/pets/save*").hasRole(admin)
+				.antMatchers("/pets/delete").hasRole(admin)
+				.antMatchers("/owners/list").hasRole(admin)
+				.antMatchers("/owners/pets").hasRole(owner)
+				.antMatchers("/owners/form*").hasRole(admin)
+				.antMatchers("/owners/save*").hasRole(admin)
+				.antMatchers("/owners/update*").hasRole(admin)
+				.antMatchers("/owners/delete").hasRole(admin)
+				.antMatchers("/appointments/list").hasAnyRole(admin,owner)
+				.antMatchers("/appointments/form*").hasRole( admin)
+				.antMatchers("/appointments/save*").hasRole(admin)
+				.antMatchers("/appointments/delete").hasRole(admin)
 				.antMatchers("/resources/**").permitAll()
 				.and()
 				.formLogin()
