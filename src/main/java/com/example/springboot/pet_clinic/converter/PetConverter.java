@@ -32,7 +32,6 @@ public class PetConverter {
     public Pet dtoToEntity(PetDTO playerDTO)
     {
         ModelMapper mapper=new ModelMapper();
-        Pet map=mapper.map(playerDTO,Pet.class);
-        return map;
+        return mapper.map(playerDTO,Pet.class);
     }
 }

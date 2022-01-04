@@ -1,6 +1,8 @@
 package com.example.springboot.pet_clinic.controller;
 
 import com.example.springboot.pet_clinic.config.TestDataSourceConfig;
+import com.example.springboot.pet_clinic.converter.OwnerConverter;
+import com.example.springboot.pet_clinic.converter.PetConverter;
 import com.example.springboot.pet_clinic.entity.Owner;
 import com.example.springboot.pet_clinic.entity.Pet;
 
@@ -44,6 +46,10 @@ class OwnerControllerTest {
         private MockMvc mockMvc;
         @Autowired
         private WebApplicationContext webApplicationContext;
+
+        private final PetConverter petConverter  = new PetConverter();
+
+        private final OwnerConverter ownerConverter = new OwnerConverter();
         @BeforeAll
         private void setup(){
             mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
@@ -75,8 +81,9 @@ class OwnerControllerTest {
         Pet pet = new Pet(1,"Tom","Cat");
         Owner owner = new Owner(0,"John","9876543210");
         when(petService.findById(pet.getId())).thenReturn(pet);
-        mockMvc.perform(post("/owners/save?petId="+pet.getId()).flashAttr("pet",pet)
-                .flashAttr("owner",owner)).andExpect(view().name("redirect:/owners/list?petId=1"));
+        mockMvc.perform(post("/owners/save?petId="+pet.getId()).flashAttr("pet",petConverter.entityToDto(pet))
+                .flashAttr("owner",ownerConverter.entityToDto(owner)))
+                .andExpect(view().name("redirect:/owners/list?petId=1"));
         mockMvc.perform(post("/owners/save?petId="+pet.getId()))
                 .andExpect(view().name("owners/ownerForm"));
     }
@@ -95,8 +102,9 @@ class OwnerControllerTest {
         Pet pet = new Pet(1,"Tom","Cat");
         Owner owner = new Owner(1,"John","9876543210");
         when(ownerService.findById(owner.getId())).thenReturn(owner);
-        mockMvc.perform(post("/owners/save-update?petId="+pet.getId()).flashAttr("pet",pet)
-                .flashAttr("owner",owner))
+        mockMvc.perform(post("/owners/save-update?petId="+pet.getId())
+                        .flashAttr("pet",petConverter.entityToDto(pet))
+                .flashAttr("owner",ownerConverter.entityToDto(owner)))
                 .andExpect(view().name("redirect:/owners/list?petId=1"));
         mockMvc.perform(post("/owners/save-update?petId="+pet.getId()))
                 .andExpect(view().name("owners/ownerForm"));

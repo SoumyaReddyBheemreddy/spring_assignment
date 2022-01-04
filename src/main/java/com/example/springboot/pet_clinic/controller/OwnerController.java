@@ -1,5 +1,8 @@
 package com.example.springboot.pet_clinic.controller;
 
+import com.example.springboot.pet_clinic.converter.OwnerConverter;
+import com.example.springboot.pet_clinic.dto.OwnerDTO;
+import com.example.springboot.pet_clinic.dto.PetDTO;
 import com.example.springboot.pet_clinic.entity.Owner;
 import com.example.springboot.pet_clinic.entity.Pet;
 import com.example.springboot.pet_clinic.entity.Users;
@@ -27,6 +30,9 @@ public class OwnerController {
     private PetService petService;
     @Autowired
     private UsersService usersService;
+
+
+    private final OwnerConverter ownerConverter = new OwnerConverter();
     @InitBinder
     public void initBinder(WebDataBinder dataBinder)
     {
@@ -60,14 +66,14 @@ public class OwnerController {
         return "owners/ownerForm";
     }
     @PostMapping("/save")
-    public String savePetOwner(@Valid  @ModelAttribute("owner") Owner owner, BindingResult bindingResult,
-                                @ModelAttribute("pet") Pet petModel,
+    public String savePetOwner(@Valid  @ModelAttribute("owner") OwnerDTO owner, BindingResult bindingResult,
+                               @ModelAttribute("pet") PetDTO petModel,
                                @RequestParam("petId") int petId){
         petModel.setId(petId);
         if(bindingResult.hasErrors())
             return "owners/ownerForm";
         Pet pet = petService.findById(petId);
-        ownerService.savePetOwner(owner, pet);
+        ownerService.savePetOwner(ownerConverter.dtoToEntity(owner), pet);
 
         return "redirect:/owners/list?petId="+petId;
     }
@@ -82,8 +88,8 @@ public class OwnerController {
         return "owners/updateOwnerForm";
     }
     @PostMapping("/save-update")
-    public String updateOwner(@Valid @ModelAttribute("owner") Owner owner, BindingResult bindingResult,
-                              @ModelAttribute("pet") Pet pet,
+    public String updateOwner(@Valid @ModelAttribute("owner") OwnerDTO owner, BindingResult bindingResult,
+                              @ModelAttribute("pet") PetDTO pet,
                               @RequestParam("petId") int petId){
         pet.setId(petId);
         if(bindingResult.hasErrors())
