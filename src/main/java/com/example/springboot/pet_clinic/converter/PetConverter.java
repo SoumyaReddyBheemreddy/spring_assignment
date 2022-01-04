@@ -2,6 +2,7 @@ package com.example.springboot.pet_clinic.converter;
 
 import com.example.springboot.pet_clinic.dto.PetDTO;
 import com.example.springboot.pet_clinic.entity.Pet;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -27,6 +28,11 @@ public class PetConverter {
             petsDTO.add(petDTO);
         }
         return  petsDTO;
-
+    }
+    public Pet dtoToEntity(PetDTO playerDTO)
+    {
+        ModelMapper mapper=new ModelMapper();
+        Pet map=mapper.map(playerDTO,Pet.class);
+        return map;
     }
 }

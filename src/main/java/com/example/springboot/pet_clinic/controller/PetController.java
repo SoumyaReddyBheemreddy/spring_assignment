@@ -43,17 +43,17 @@ public class PetController {
         return "pets/petForm";
     }
     @PostMapping("/save")
-    public String savePet(@Valid  @ModelAttribute("pet") Pet pet, BindingResult bindingResult){
+    public String savePet(@Valid  @ModelAttribute("pet") PetDTO pet, BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return "pets/petForm";
         else {
             if (pet.getId() != 0) {
-                Pet temPet = petService.findById(pet.getId());
+                PetDTO temPet = petConverter.entityToDto(petService.findById(pet.getId()));
                 temPet.setName(pet.getName());
                 temPet.setType(pet.getType());
-                petService.save(temPet);
+                petService.save(petConverter.dtoToEntity(temPet));
             } else
-                petService.save(pet);
+                petService.save(petConverter.dtoToEntity(pet));
         }
         return "redirect:/pets/list";
     }

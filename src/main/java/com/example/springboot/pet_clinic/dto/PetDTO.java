@@ -13,14 +13,16 @@ import java.util.Set;
 public class PetDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+
     private int id;
-    @NotNull(message = "pet name is required")
-    @Column(name = "name")
-    private String name;
+
     @NotNull(message = "pet type is required")
-    @Column(name = "type")
+
     private String type;
+
+    @NotNull(message = "pet name is required")
+
+    private String name;
 
     private Set<Owner> owners;
 
